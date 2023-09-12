@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>To-do list</title>
+</head>
+<body>
+    <div id="header">
+        <h1>To-do list</h1>
+    </div>
+    <div id="container">
+        <div id="sidebar">
+            <div class="sidebar-content">
+                <h2>Tasks</h2>
+                <button id="all-tasks">All tasks</button>
+                <button>Today</button>
+                <button>Next 7 days</button>
+                <button id="important">Important</button>
+                <button id="button-new-task" class="add-button">+ Add task</button>
+            </div>
+            <hr class="sidebar-separator"> 
+            <div id="sidebar-categories" class="sidebar-content">
+                <h2>Categories</h2>
+                <button id="button-new-category" class="add-button">+ Add category</button>
+            </div>
+        </div>
+        <div id="content">
+            <!-- tasks display -->
+        </div>
+    </div>
+
+    <!-- add a new task modal -->
+    <div id="modal-new-task" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="close-button"><span class="close">&times;</span></button>
+            <div class="modal-title">Create a new task</div>
+            <form id="form-new-task" class="form" action="#">
+                <div>
+                    <label for="task-name">Name:</label>
+                    <input type="text" id="task-name" name="task-name" required>
+                </div>
+                <div>
+                    <label for="task-date">Due date:</label>
+                    <input type="date" id="task-date" name="task-date" required>
+                </div>
+                <div>
+                    <label for="task-priority">Task priority:</label>
+                    <select name="task-priority" id="task-priority" required>
+                        <option value="low">low</option>
+                        <option value="medium">medium</option>
+                        <option value="high">high</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="task-category">Task category:</label>
+                    <select name="task-category" id="task-category" required>
+                        <!-- Existing categories will be dynamically added here -->
+                    </select>
+                </div>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- add a new category modal -->
+    <div id="modal-new-category" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="close-button"><span class="close">&times;</span></button>
+            <div class="modal-title">Create a new category</div>
+            <form id="form-new-category" class="form" action="#">
+                <input type="text" id="category-name" name="category-name" placeholder="Name" required>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+
+html, body, * {
+    font-family: "Ubuntu", sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: grid;
+    grid-template-rows: 10vh 90vh;
+    overflow: hidden;
+}
+
+/* header */
+
+#header {
+    background-color: #952323;
+    color: #ffffff;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+/* container */
+
+#container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    overflow-y: auto;
+}
+
+/* sidebar */
+
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: #DFDFDE;
+    gap: 20px;
+    padding: 20px;
+}
+
+.sidebar-separator {
+    border: 1px solid #c3c3c1;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin: 0 10px 10px 10px;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sidebar-content button {
+    background: none;
+    border: none;
+    text-align: start;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sidebar-content button:hover,
+.sidebar-content button:active {
+    background-color: #c3c3c1;
+    border-radius: 10px;
+}
+
+.sidebar-content .add-button {
+    color: #ffffff;
+    background-color: #952323;
+    border-radius: 10px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.sidebar-content .add-button:hover,
+.sidebar-content .add-button:active {
+    background-color: #db6666;
+}
+
+/* content */
+
+#content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 30px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 5px; 
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    background-color: #DFDFDE;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.low-priority {
+    border-left: 6px solid #96CD39;
+}
+
+.medium-priority {
+    border-left: 6px solid #F29F3D;
+}
+
+.high-priority {
+    border-left: 6px solid #CF3333;
+}
+
+.task-details {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.edit,
+.remove {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #952323;
+    border: 1px solid #952323;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.edit:hover,
+.remove:hover {
+    background-color: #db6666;
+    border: 1px solid #db6666;
+}
+
+.edit img,
+.remove img {
+    width: 25px;
+    height: 25px;
+}
+
+/* modals */
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    width: 400px;
+    background-color: #ffffff;
+    border: 3px solid #c3c3c1;
+    border-radius: 10px;
+    text-align: center;
+    margin: 10% auto 0;
+    padding: 20px;
+}
+
+.close-button {
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #952323;
+    border: 1px solid #952323;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.close-button:hover
+{
+    background-color: #db6666;
+    border: 1px solid #db6666;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.close {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.modal-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 45px 0 15px 0;
+}
+
+#form-new-task div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type=text],
+input[type=date], 
+select {
+    background-color: #DFDFDE;
+    border: 2px solid #c3c3c1;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.submit-button {
+    color: #ffffff;
+    background-color: #952323;
+    border: solid 1px #952323;
+    border-radius: 10px;
+    padding: 10px;
+    width: 50%;
+    margin-top: 20px;
+    align-self: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #db6666;;
+    border: 1px solid #db6666;;
+}
