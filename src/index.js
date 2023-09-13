@@ -27,4 +27,4 @@ newCategoryForm.addEventListener("submit", submitNewCategory);
 newTaskForm.addEventListener("submit", submitNewTask);
 
 allTasksButton.addEventListener("click", () => displayContent("All tasks"));
-importantButton.addEventListener("click", () => displayC("Important"));
+importantButton.addEventListener("click", () => displayContent("Important"));
