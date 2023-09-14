@@ -14,6 +14,8 @@ const newCategoryForm = document.getElementById("form-new-category");
 const newTaskForm = document.getElementById("form-new-task");
 
 const allTasksButton = document.getElementById("all-tasks");
+const todayButton = document.getElementById("today");
+const next7DaysButton = document.getElementById("next-7-days");
 const importantButton = document.getElementById("important");
 
 newCategoryButton.addEventListener("click", displayNewCategoryModal);
@@ -27,4 +29,6 @@ newCategoryForm.addEventListener("submit", submitNewCategory);
 newTaskForm.addEventListener("submit", submitNewTask);
 
 allTasksButton.addEventListener("click", () => displayContent("All tasks"));
+todayButton.addEventListener("click", () => displayContent("Today"));
+next7DaysButton.addEventListener("click", () => displayContent("Next 7 days"));
 importantButton.addEventListener("click", () => displayContent("Important"));

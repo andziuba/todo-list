@@ -1,4 +1,4 @@
-import { Category } from "./category";
+import { format, isWithinInterval, parseISO } from "date-fns";
 
 class TodoList {
     constructor() {
@@ -45,6 +45,36 @@ class TodoList {
             highPriorityTasks = highPriorityTasks.concat(categoryTasks.filter(task => task.getTaskPriority() === "high"));
         });
         return highPriorityTasks;
+    }
+
+    getTasksByDate(date) {
+        const filteredTasks = [];
+        this.categories.forEach(category => {
+            category.getCategoryTasks().forEach(task => {
+                const taskDate = format(task.getTaskDate(), "yyyy-MM-dd");
+                if (taskDate === date) {
+                    filteredTasks.push(task);
+                }
+            });
+        });
+        return filteredTasks;
+    }
+
+    getTasksInRange(startDate, endDate) {
+        const parsedStartDate = parseISO(startDate);
+        const parsedEndDate = parseISO(endDate);
+
+        const filteredTasks = [];
+        this.categories.forEach(category => {
+            category.getCategoryTasks().forEach(task => {
+                const taskDate = task.getTaskDate();
+                if (isWithinInterval(taskDate, { start: parsedStartDate, end: parsedEndDate })) {
+                    filteredTasks.push(task);
+                }
+            });
+        });
+
+        return filteredTasks;
     }
 }
 

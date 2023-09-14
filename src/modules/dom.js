@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, addDays } from "date-fns";
 import { Task } from "./task";
 import { Category } from "./category";
 import { TodoList } from "./todoList";
@@ -38,13 +38,6 @@ function createTaskElement(task) {
     const formattedDate = format(task.getTaskDate(), "yyyy-MM-dd");
     taskDateElement.textContent = formattedDate;
 
-    const editButton = document.createElement("button");
-    editButton.classList.add("edit");
-    const editIcon = document.createElement("img");
-    editIcon.src = "./imgs/edit_task.svg";
-    editIcon.alt = "Edit";
-    editButton.appendChild(editIcon);
-
     const removeButton = document.createElement("button");
     removeButton.classList.add("remove");
     const removeIcon = document.createElement("img");
@@ -54,7 +47,6 @@ function createTaskElement(task) {
     removeButton.addEventListener("click", () => deleteTask(task));
 
     taskDetailsElement.appendChild(taskDateElement);
-    taskDetailsElement.appendChild(editButton);
     taskDetailsElement.appendChild(removeButton);
 
     taskElement.appendChild(taskNameElement);
@@ -68,14 +60,28 @@ function displayContent(categoryName) {
     content.innerHTML = `<h3 id="content-header">${categoryName}</h3>`
     
     let filteredTasks = [];
-    if (categoryName === "All tasks") {
-        filteredTasks = todoList.getAllTasks();
-    }
-    else if (categoryName === "Important") {
-        filteredTasks = todoList.getHighPriorityTasks();
-    }
-    else {
-        filteredTasks = todoList.getTasksByCategory(categoryName);
+    switch (categoryName) {
+        case "All tasks":
+            filteredTasks = todoList.getAllTasks();
+            break;
+        case "Today":
+            const today = new Date();
+            const formattedToday = format(today, "yyyy-MM-dd");
+            filteredTasks = todoList.getTasksByDate(formattedToday);
+            break;
+        case "Next 7 days":
+            const startDate = new Date();
+            const formattedStartDate = format(startDate, "yyyy-MM-dd");
+            const endDate = addDays(startDate, 7);
+            const formattedEndDate = format(endDate, "yyyy-MM-dd");
+            filteredTasks = todoList.getTasksInRange(formattedStartDate, formattedEndDate);
+            break;
+        case "Important":
+            filteredTasks = todoList.getHighPriorityTasks();
+            break;
+        default:
+            filteredTasks = todoList.getTasksByCategory(categoryName);
+            break;
     }
 
     if (filteredTasks.length === 0) {
