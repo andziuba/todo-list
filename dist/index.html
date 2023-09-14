@@ -64,6 +64,39 @@
         </div>
     </div>
 
+    <!-- edit task modal -->
+    <div id="modal-edit-task" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="close-button"><span class="close">&times;</span></button>
+            <div class="modal-title">Edit Task</div>
+            <form id="form-edit-task" class="form" action="#">
+                <div>
+                    <label for="edit-task-name">Name:</label>
+                    <input type="text" id="edit-task-name" name="edit-task-name" required>
+                </div>
+                <div>
+                    <label for="edit-task-date">Due date:</label>
+                    <input type="date" id="edit-task-date" name="edit-task-date" required>
+                </div>
+                <div>
+                    <label for="edit-task-priority">Task priority:</label>
+                    <select name="edit-task-priority" id="edit-task-priority" required>
+                        <option value="low">low</option>
+                        <option value="medium">medium</option>
+                        <option value="high">high</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="edit-task-category">Task category:</label>
+                    <select name="edit-task-category" id="edit-task-category" required>
+                        <!-- Existing categories will be dynamically added here -->
+                    </select>
+                </div>
+                <button type="submit" class="submit-button">Update</button>
+            </form>
+        </div>
+    </div>
+
     <!-- add a new category modal -->
     <div id="modal-new-category" class="modal" style="display: none;">
         <div class="modal-content">

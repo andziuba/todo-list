@@ -8,8 +8,6 @@ function displayNewCategoryModal() {
 }
 
 function displayNewTaskModal() {
-    const mainCategories = ["All tasks", "Important"];
-
     newTaskModal.style.display = "block";
 
     const taskCategorySelect = document.getElementById("task-category");
@@ -18,13 +16,10 @@ function displayNewTaskModal() {
     const categories = todoList.getCategories();
     categories.forEach(category => {
         const categoryName = category.getCategoryName();
-
-        if (!mainCategories.includes(categoryName)) {
-            const option = document.createElement("option");
-            option.value = categoryName;
-            option.textContent = categoryName;
-            taskCategorySelect.appendChild(option);
-        }
+        const option = document.createElement("option");
+        option.value = categoryName;
+        option.textContent = categoryName;
+        taskCategorySelect.appendChild(option);
     });
 }
 

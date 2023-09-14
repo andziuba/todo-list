@@ -3,8 +3,6 @@ import { Category } from "./category";
 class TodoList {
     constructor() {
         this.categories = [];
-        this.categories.push(new Category("All tasks"));
-        this.categories.push(new Category("Important"));
     }
 
     getCategories() {
@@ -30,6 +28,23 @@ class TodoList {
         if (category) {
             category.deleteTask(task);
         }
+    }
+
+    getAllTasks() {
+        let allTasks = [];
+        this.categories.forEach(category => {
+            allTasks = allTasks.concat(category.getCategoryTasks());
+        });
+        return allTasks;
+    }
+
+    getHighPriorityTasks() {
+        let highPriorityTasks = [];
+        this.categories.forEach(category => {
+            const categoryTasks = category.getCategoryTasks();
+            highPriorityTasks = highPriorityTasks.concat(categoryTasks.filter(task => task.getTaskPriority() === "high"));
+        });
+        return highPriorityTasks;
     }
 }
 

@@ -28,17 +28,7 @@ class Task {
     }
 }
 
-function addNewTaskToCategories(newTask, category, priority) {
-    // add to "All tasks"
-    const allTasksCategory = todoList.getCategoryByName("All tasks");
-    allTasksCategory.addTaskToCategory(newTask);
-
-    // add to "Imporant" if its priority is high
-    const importantCategory = todoList.getCategoryByName("Important");
-    if (priority === "high") {
-        importantCategory.addTaskToCategory(newTask);
-    }
-    
+function addNewTaskToCategory(newTask, category) {
     // add to its category
     const categoryToAddTask = todoList.getCategoryByName(category);
     categoryToAddTask.addTaskToCategory(newTask);
@@ -54,7 +44,7 @@ function submitNewTask(e) {
     const newTaskCategory = document.getElementById("task-category").value;
     const newTask = new Task(newTaskName, newTaskDate, newTaskPriority, newTaskCategory);
 
-    addNewTaskToCategories(newTask, newTaskCategory, newTaskPriority);
+    addNewTaskToCategory(newTask, newTaskCategory);
 
     document.getElementById("form-new-task").reset();
     closeModals();
@@ -69,22 +59,8 @@ function deleteTask(task) {
         // remove from its category
         category.deleteTaskfromCategory(task);
 
-        // remove from "All tasks" category
-        const allTasksCategory = todoList.getCategoryByName("All tasks");
-        if (allTasksCategory) {
-            allTasksCategory.deleteTaskfromCategory(task);
-        }
-
-        // remove from "Important" category if its priority is high
-        if (task.getTaskPriority() === "high") {
-            const importantCategory = todoList.getCategoryByName("Important");
-            if (importantCategory) {
-                importantCategory.deleteTaskfromCategory(task);
-            }
-        }
-
         refreshDisplay();
     }
 }
 
-export { Task, addNewTaskToCategories, submitNewTask, deleteTask };
+export { Task, addNewTaskToCategory, submitNewTask, deleteTask };

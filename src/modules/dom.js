@@ -2,11 +2,10 @@ import { format } from "date-fns";
 import { Task } from "./task";
 import { Category } from "./category";
 import { TodoList } from "./todoList";
-import { addNewTaskToCategories, deleteTask } from "./task";
+import { addNewTaskToCategory, deleteTask } from "./task";
 import { displayNewCategoryModal } from "./modals";
 
 const todoList = new TodoList();
-const mainCategories = ["All tasks", "Important"];
 
 // default content
 const defaultCategories = ["Chores", "Health"];
@@ -67,8 +66,17 @@ function createTaskElement(task) {
 function displayContent(categoryName) {
     const content = document.getElementById("content");
     content.innerHTML = `<h3 id="content-header">${categoryName}</h3>`
-
-    const filteredTasks = todoList.getTasksByCategory(categoryName);
+    
+    let filteredTasks = [];
+    if (categoryName === "All tasks") {
+        filteredTasks = todoList.getAllTasks();
+    }
+    else if (categoryName === "Important") {
+        filteredTasks = todoList.getHighPriorityTasks();
+    }
+    else {
+        filteredTasks = todoList.getTasksByCategory(categoryName);
+    }
 
     if (filteredTasks.length === 0) {
         content.innerHTML += "<p>No tasks!</p>";
@@ -92,16 +100,13 @@ function refreshCategoryList() {
     // clear all categories
     sidebarCategories.innerHTML = "<h2>Categories</h2>";
 
-    // add categories to the sidebar (except mainCategories)
+    // add categories to the sidebar
     categories.forEach(category => {
         const categoryName = category.getCategoryName();
-
-        if (!mainCategories.includes(categoryName)) {
-            const categoryButton = document.createElement("button");
-            categoryButton.textContent = categoryName;
-            categoryButton.classList.add("category");
-            sidebarCategories.appendChild(categoryButton);
-        }
+        const categoryButton = document.createElement("button");
+        categoryButton.textContent = categoryName;
+        categoryButton.classList.add("category");
+        sidebarCategories.appendChild(categoryButton);
     });
 
     // attach addCategoryButton to sidebar
@@ -136,7 +141,7 @@ function loadDefaultContent() {
         const category = taskData.category;
         const newTask = new Task(name, date, priority, category);
     
-        addNewTaskToCategories(newTask, category, priority);
+        addNewTaskToCategory(newTask, category);
     });
 
     refreshDisplay();
