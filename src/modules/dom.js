@@ -72,10 +72,29 @@ function createTaskElement(task) {
     return taskElement;
 }
 
+function editActiveCategoryClass(categoryName) {
+    const elements = [
+        allTasksButton,
+        todayButton,
+        next7DaysButton,
+        importantButton,
+        ...document.querySelectorAll(".category")
+    ];
+
+    elements.forEach(element => {
+        element.classList.remove("active-category");
+        if (element.textContent === categoryName) {
+            element.classList.add("active-category");
+        }
+    });
+}
+
 function displayContent(categoryName) {
     const content = document.getElementById("content");
     content.innerHTML = `<h3 id="content-header">${categoryName}</h3>`
     
+    editActiveCategoryClass(categoryName);
+
     let filteredTasks = [];
     switch (categoryName) {
         case "All tasks":

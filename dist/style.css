@@ -16,6 +16,9 @@ body {
 /* header */
 
 #header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #952323;
     color: #ffffff;
     padding: 20px;
@@ -23,6 +26,10 @@ body {
 
 h1 {
     font-size: 2rem;
+}
+
+#toggle-button-container {
+    display: none;
 }
 
 /* container */
@@ -67,7 +74,7 @@ h2 {
 }
 
 .sidebar-content button:hover,
-.sidebar-content button:active {
+.sidebar-content .active-category {
     background-color: #c3c3c1;
     border-radius: 10px;
 }
@@ -80,8 +87,7 @@ h2 {
     text-align: center;
 }
 
-.sidebar-content .add-button:hover,
-.sidebar-content .add-button:active {
+.sidebar-content .add-button:hover {
     background-color: #db6666;
 }
 
@@ -108,7 +114,7 @@ select {
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
-    padding: 10px 30px 0 0;
+    padding: 15px 30px 0 0;
 }
 
 .task {
@@ -258,4 +264,68 @@ select {
 .submit-button:hover {
     background-color: #db6666;;
     border: 1px solid #db6666;;
+}
+
+@media (max-width: 570px) {
+    #toggle-button-container {
+        display: flex;
+        align-items: center;
+    }
+
+    #toggle-sidebar {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    #toggle-sidebar img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .rotate-clockwise-animation {
+        animation: rotateClockwise 0.2s linear; 
+    }
+
+    .rotate-counterclockwise-animation {
+        animation: rotateCounterclockwise 0.2s linear;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #sidebar.open {
+        display: flex;
+    }
+
+    #container {
+        display: grid;
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    html, body, * {
+        font-size: 14px;
+    }
+}
+
+@keyframes rotateClockwise {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes rotateCounterclockwise {
+    0% {
+        transform: rotate(90deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
