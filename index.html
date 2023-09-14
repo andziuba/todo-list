@@ -9,6 +9,9 @@
 <body>
     <div id="header">
         <h1>To-do list</h1>
+        <div id="toggle-button-container">
+            <button id="toggle-sidebar"><img src="./imgs/menu.svg" alt="Menu" id="sidebar-icon"></button>
+        </div>          
     </div>
     <div id="container">
         <div id="sidebar">
@@ -115,5 +118,30 @@
         </div>
     </div>
     <script src="main.js"></script>
+    <script>
+        const sidebar = document.getElementById("sidebar");
+        const toggleButton = document.getElementById("toggle-sidebar");
+        const sidebarIcon = document.getElementById("sidebar-icon");
+
+        let isSidebarOpen = false;
+
+        toggleButton.addEventListener("click", () => {
+            isSidebarOpen = !isSidebarOpen;
+            sidebar.classList.toggle("open", isSidebarOpen);
+
+            if (isSidebarOpen) {
+                sidebarIcon.src = "./imgs/xmark.svg";
+                sidebarIcon.classList.add("rotate-clockwise-animation");
+                sidebarIcon.classList.remove("rotate-counterclockwise-animation");
+            } 
+            else {
+                sidebarIcon.classList.remove("rotate-clockwise-animation");
+                sidebarIcon.classList.add("rotate-counterclockwise-animation");
+                sidebarIcon.src = "./imgs/menu.svg";
+            }
+
+            sidebarIcon.classList.add("rotate-animation");
+        });
+    </script>
 </body>
 </html>
