@@ -1,4 +1,4 @@
-import { displayContent, loadDefaultContent } from "./modules/dom";
+import { displayContent, loadDefaultContent, changeSortingMode } from "./modules/dom";
 import { displayNewCategoryModal, displayNewTaskModal, closeModals } from "./modules/modals";
 import { submitNewCategory } from "./modules/category";
 import { submitNewTask } from "./modules/task";
@@ -18,6 +18,8 @@ const todayButton = document.getElementById("today");
 const next7DaysButton = document.getElementById("next-7-days");
 const importantButton = document.getElementById("important");
 
+const sortingSelect = document.getElementById("sort-tasks");
+
 newCategoryButton.addEventListener("click", displayNewCategoryModal);
 newTaskButton.addEventListener("click", displayNewTaskModal);
 
@@ -32,3 +34,8 @@ allTasksButton.addEventListener("click", () => displayContent("All tasks"));
 todayButton.addEventListener("click", () => displayContent("Today"));
 next7DaysButton.addEventListener("click", () => displayContent("Next 7 days"));
 importantButton.addEventListener("click", () => displayContent("Important"));
+
+sortingSelect.addEventListener("change", () => {
+    const selectedValue = sortingSelect.value;
+    changeSortingMode(selectedValue);
+});

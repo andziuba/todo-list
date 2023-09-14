@@ -6,16 +6,20 @@ import { addNewTaskToCategory, deleteTask } from "./task";
 import { displayNewCategoryModal } from "./modals";
 
 const todoList = new TodoList();
+let sortingMode = "date";
 
 // default content
 const defaultCategories = ["Chores", "Health"];
+const today = new Date();
+const twoDaysFromNow = new Date();
+twoDaysFromNow.setDate(today.getDate() + 2);
+const twoWeeksFromNow = new Date();
+twoWeeksFromNow.setDate(today.getDate() + 14);
 const defaultTasks = [
-    { name: "Water the plants", date: new Date("2023-09-15"), priority: "high", category: "Chores" },
-    { name: "Do the laundry", date: new Date("2023-09-17"), priority: "medium", category: "Chores" },
-    { name: "Drink 2 L of water", date: new Date("2023-09-16"), priority: "medium", category: "Health"},
-    { name: "Take pills", date: new Date("2023-09-15"), priority: "high", category: "Health"},
-    { name: "Workout", date: new Date("2023-09-19"), priority: "low", category: "Health"}
-]
+    { name: "Water the plants", date: twoWeeksFromNow, priority: "high", category: "Chores" },
+    { name: "Drink 2 L of water", date: today, priority: "medium", category: "Health"},
+    { name: "Workout", date: twoDaysFromNow, priority: "low", category: "Health"}
+];
 
 function createTaskElement(task) {
     const taskElement = document.createElement("div");
@@ -55,6 +59,23 @@ function createTaskElement(task) {
     return taskElement;
 }
 
+function changeSortingMode(mode) {
+    sortingMode = mode;
+    refreshDisplay();
+}
+
+function sortTasks(filteredTasks) {
+    if (sortingMode === "date") {
+        filteredTasks.sort((a, b) => a.getTaskDate() - b.getTaskDate());
+    }
+    else if (sortingMode === "priority") {
+        filteredTasks.sort((a, b) => {
+            const priorityOrder = { high: 0, medium: 1, low: 2 };
+            return priorityOrder[a.getTaskPriority()] - priorityOrder[b.getTaskPriority()];
+        });
+    }
+}
+
 function displayContent(categoryName) {
     const content = document.getElementById("content");
     content.innerHTML = `<h3 id="content-header">${categoryName}</h3>`
@@ -83,6 +104,8 @@ function displayContent(categoryName) {
             filteredTasks = todoList.getTasksByCategory(categoryName);
             break;
     }
+
+    sortTasks(filteredTasks);
 
     if (filteredTasks.length === 0) {
         content.innerHTML += "<p>No tasks!</p>";
@@ -154,4 +177,4 @@ function loadDefaultContent() {
     refreshCategoryList();
 }
 
-export { todoList, displayContent, loadDefaultContent, refreshDisplay, refreshCategoryList };
+export { todoList, displayContent, loadDefaultContent, refreshDisplay, refreshCategoryList, changeSortingMode };
