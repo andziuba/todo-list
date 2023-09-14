@@ -28,6 +28,18 @@ class Task {
     }
 }
 
+function deleteTask(task) {
+    const categoryName = task.getTaskCategory();
+    const category = todoList.getCategoryByName(categoryName);
+
+    if (category) {
+        // remove from its category
+        category.deleteTaskfromCategory(task);
+
+        refreshDisplay();
+    }
+}
+
 function addNewTaskToCategory(newTask, category) {
     // add to its category
     const categoryToAddTask = todoList.getCategoryByName(category);
@@ -51,16 +63,7 @@ function submitNewTask(e) {
     refreshDisplay();
 }
 
-function deleteTask(task) {
-    const categoryName = task.getTaskCategory();
-    const category = todoList.getCategoryByName(categoryName);
+const newTaskForm = document.getElementById("form-new-task");
+newTaskForm.addEventListener("submit", submitNewTask);
 
-    if (category) {
-        // remove from its category
-        category.deleteTaskfromCategory(task);
-
-        refreshDisplay();
-    }
-}
-
-export { Task, addNewTaskToCategory, submitNewTask, deleteTask };
+export { Task, deleteTask, addNewTaskToCategory, submitNewTask };

@@ -33,14 +33,15 @@ function submitNewCategory(e) {
     const newCategoryNameInput = document.getElementById("category-name");
     const newCategoryName = newCategoryNameInput.value.trim();
 
-    if (newCategoryName) {
-        const newCategory = new Category(newCategoryName);
-        todoList.addCategory(newCategory);
+    const newCategory = new Category(newCategoryName);
+    todoList.addCategory(newCategory);
 
-        document.getElementById("form-new-category").reset();
-        closeModals();
-        refreshCategoryList();
-    }
+    document.getElementById("form-new-category").reset();
+    closeModals();
+    refreshCategoryList();
 }
+
+const newCategoryForm = document.getElementById("form-new-category");
+newCategoryForm.addEventListener("submit", submitNewCategory);
 
 export { Category, submitNewCategory };

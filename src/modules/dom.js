@@ -1,25 +1,38 @@
 import { format, addDays } from "date-fns";
-import { Task } from "./task";
-import { Category } from "./category";
 import { TodoList } from "./todoList";
-import { addNewTaskToCategory, deleteTask } from "./task";
+import { deleteTask } from "./task";
 import { displayNewCategoryModal } from "./modals";
 
 const todoList = new TodoList();
-let sortingMode = "date";
 
-// default content
-const defaultCategories = ["Chores", "Health"];
-const today = new Date();
-const twoDaysFromNow = new Date();
-twoDaysFromNow.setDate(today.getDate() + 2);
-const twoWeeksFromNow = new Date();
-twoWeeksFromNow.setDate(today.getDate() + 14);
-const defaultTasks = [
-    { name: "Water the plants", date: twoWeeksFromNow, priority: "high", category: "Chores" },
-    { name: "Drink 2 L of water", date: today, priority: "medium", category: "Health"},
-    { name: "Workout", date: twoDaysFromNow, priority: "low", category: "Health"}
-];
+// sort tasks by date/priority
+
+let sortingMode = "date";   // default sorting set to date
+
+function changeSortingMode(mode) {
+    sortingMode = mode;
+    refreshDisplay();
+}
+
+const sortingSelect = document.getElementById("sort-tasks");
+sortingSelect.addEventListener("change", () => {
+    const selectedValue = sortingSelect.value;
+    changeSortingMode(selectedValue);
+});
+
+function sortTasks(filteredTasks) {
+    if (sortingMode === "date") {
+        filteredTasks.sort((a, b) => a.getTaskDate() - b.getTaskDate());
+    }
+    else if (sortingMode === "priority") {
+        filteredTasks.sort((a, b) => {
+            const priorityOrder = { high: 0, medium: 1, low: 2 };
+            return priorityOrder[a.getTaskPriority()] - priorityOrder[b.getTaskPriority()];
+        });
+    }
+}
+
+// crearte display of the tasks
 
 function createTaskElement(task) {
     const taskElement = document.createElement("div");
@@ -57,23 +70,6 @@ function createTaskElement(task) {
     taskElement.appendChild(taskDetailsElement);
 
     return taskElement;
-}
-
-function changeSortingMode(mode) {
-    sortingMode = mode;
-    refreshDisplay();
-}
-
-function sortTasks(filteredTasks) {
-    if (sortingMode === "date") {
-        filteredTasks.sort((a, b) => a.getTaskDate() - b.getTaskDate());
-    }
-    else if (sortingMode === "priority") {
-        filteredTasks.sort((a, b) => {
-            const priorityOrder = { high: 0, medium: 1, low: 2 };
-            return priorityOrder[a.getTaskPriority()] - priorityOrder[b.getTaskPriority()];
-        });
-    }
 }
 
 function displayContent(categoryName) {
@@ -123,6 +119,26 @@ function refreshDisplay() {
     displayContent(currentCategoryName);
 }
 
+const allTasksButton = document.getElementById("all-tasks");
+const todayButton = document.getElementById("today");
+const next7DaysButton = document.getElementById("next-7-days");
+const importantButton = document.getElementById("important");
+const sidebarCategories = document.getElementById("sidebar-categories");
+
+allTasksButton.addEventListener("click", () => displayContent("All tasks"));
+todayButton.addEventListener("click", () => displayContent("Today"));
+next7DaysButton.addEventListener("click", () => displayContent("Next 7 days"));
+importantButton.addEventListener("click", () => displayContent("Important"));
+sidebarCategories.addEventListener("click", function(e) {
+    const target = e.target;
+    if (target.classList.contains("category")) {
+        const categoryName = target.textContent;
+        displayContent(categoryName);
+    }
+});
+
+// update list of categories on the sidebar
+
 function refreshCategoryList() {
     const categories = todoList.getCategories();
 
@@ -148,33 +164,4 @@ function refreshCategoryList() {
     addCategoryButton.addEventListener("click", displayNewCategoryModal);
 }
 
-const sidebarCategories = document.getElementById("sidebar-categories");
-sidebarCategories.addEventListener("click", function(e) {
-    const target = e.target;
-    if (target.classList.contains("category")) {
-        const categoryName = target.textContent;
-        displayContent(categoryName);
-    }
-});
-
-function loadDefaultContent() {
-    defaultCategories.forEach(categoryName => {
-        const newCategory = new Category(categoryName);
-        todoList.addCategory(newCategory);
-    });
-
-    defaultTasks.forEach(taskData => {
-        const name = taskData.name;
-        const date = taskData.date;
-        const priority = taskData.priority;
-        const category = taskData.category;
-        const newTask = new Task(name, date, priority, category);
-    
-        addNewTaskToCategory(newTask, category);
-    });
-
-    refreshDisplay();
-    refreshCategoryList();
-}
-
-export { todoList, displayContent, loadDefaultContent, refreshDisplay, refreshCategoryList, changeSortingMode };
+export { todoList, changeSortingMode, displayContent, refreshDisplay, refreshCategoryList };
