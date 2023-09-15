@@ -1,7 +1,7 @@
 import { parse } from "date-fns";
-import { todoList } from "./dom";
+import { todoList, refreshDisplay } from "./dom";
 import { closeModals } from "./modals";
-import { refreshDisplay } from "./dom";
+import { saveTodoListToLocalStorage } from "./defaultContent";
 
 class Task {
     constructor(name, date, priority, category) {
@@ -32,12 +32,11 @@ function deleteTask(task) {
     const categoryName = task.getTaskCategory();
     const category = todoList.getCategoryByName(categoryName);
 
-    if (category) {
-        // remove from its category
-        category.deleteTaskfromCategory(task);
+    category.deleteTaskfromCategory(task);
 
-        refreshDisplay();
-    }
+    saveTodoListToLocalStorage();
+
+    refreshDisplay();
 }
 
 function addNewTaskToCategory(newTask, category) {
@@ -57,6 +56,8 @@ function submitNewTask(e) {
     const newTask = new Task(newTaskName, newTaskDate, newTaskPriority, newTaskCategory);
 
     addNewTaskToCategory(newTask, newTaskCategory);
+
+    saveTodoListToLocalStorage();
 
     document.getElementById("form-new-task").reset();
     closeModals();

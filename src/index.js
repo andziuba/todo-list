@@ -1,6 +1,14 @@
 import { displayContent } from "./modules/dom";
-import { loadDefaultContent } from "./modules/defaultContent";
+import { hasLocalStorageData, loadDefaultContent, loadTodoListFromLocalStorage } from "./modules/defaultContent";
 
 // inital load of the page
 displayContent("All tasks");
-loadDefaultContent();
+
+if (hasLocalStorageData()) {
+    // if there is data in local storage, load it
+    loadTodoListFromLocalStorage();
+} 
+else {
+    // otherwise, load default content
+    loadDefaultContent();
+}

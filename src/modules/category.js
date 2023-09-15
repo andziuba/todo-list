@@ -1,5 +1,6 @@
 import { todoList, refreshCategoryList } from "./dom";
 import { closeModals } from "./modals";
+import { saveTodoListToLocalStorage } from "./defaultContent";
 
 class Category {
     constructor(name) {
@@ -37,6 +38,9 @@ function submitNewCategory(e) {
     todoList.addCategory(newCategory);
 
     document.getElementById("form-new-category").reset();
+    
+    saveTodoListToLocalStorage();
+    
     closeModals();
     refreshCategoryList();
 }

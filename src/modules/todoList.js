@@ -1,4 +1,6 @@
 import { format, isWithinInterval, parseISO } from "date-fns";
+import { Category } from "./category";
+import { Task, addNewTaskToCategory } from "./task";
 
 class TodoList {
     constructor() {
@@ -75,6 +77,29 @@ class TodoList {
         });
 
         return filteredTasks;
+    }
+
+    loadFromLocalStorage(data) {
+        if (data && data.categories) {
+            this.categories = [];
+    
+            data.categories.forEach(storedCategory => {
+                const categoryName = storedCategory.name;
+                const category = new Category(categoryName);
+    
+                storedCategory.tasks.forEach(storedTask => {
+                    const task = new Task(
+                        storedTask.name,
+                        new Date(storedTask.date),
+                        storedTask.priority,
+                        storedTask.category
+                    );
+                    category.addTaskToCategory(task);
+                });
+
+                this.categories.push(category);
+            });
+        }
     }
 }
 

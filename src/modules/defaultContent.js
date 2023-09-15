@@ -18,6 +18,24 @@ const defaultTasks = [
     { name: "Workout", date: twoDaysFromNow, priority: "low", category: "Health"}
 ];
 
+function hasLocalStorageData() {
+    return localStorage.getItem("todoList") !== null;
+}
+
+function saveTodoListToLocalStorage() {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+}
+
+function loadTodoListFromLocalStorage() {
+    const storedTodoList = localStorage.getItem("todoList");
+    if (storedTodoList) {
+        todoList.loadFromLocalStorage(JSON.parse(storedTodoList));
+    }
+
+    refreshDisplay();
+    refreshCategoryList();
+}
+
 function loadDefaultContent() {
     defaultCategories.forEach(categoryName => {
         const newCategory = new Category(categoryName);
@@ -30,12 +48,14 @@ function loadDefaultContent() {
         const priority = taskData.priority;
         const category = taskData.category;
         const newTask = new Task(name, date, priority, category);
-    
+
         addNewTaskToCategory(newTask, category);
     });
+
+    saveTodoListToLocalStorage();
 
     refreshDisplay();
     refreshCategoryList();
 }
 
-export { loadDefaultContent };
+export { hasLocalStorageData, saveTodoListToLocalStorage, loadTodoListFromLocalStorage, loadDefaultContent };
