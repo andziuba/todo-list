@@ -1,7 +1,7 @@
 import { format, addDays } from "date-fns";
 import { TodoList } from "./todoList";
 import { deleteTask } from "./task";
-import { displayNewCategoryModal } from "./modals";
+import { displayNewCategoryModal, displayDeleteCategoryModal, closeModals } from "./modals";
 
 const todoList = new TodoList();
 
@@ -73,26 +73,42 @@ function createTaskElement(task) {
 }
 
 function editActiveCategoryClass(categoryName) {
-    const elements = [
-        allTasksButton,
-        todayButton,
-        next7DaysButton,
-        importantButton,
-        ...document.querySelectorAll(".category")
-    ];
-
-    elements.forEach(element => {
+    const mainElements = [allTasksButton, todayButton, next7DaysButton, importantButton];
+    
+    mainElements.forEach(element => {
         element.classList.remove("active-category");
         if (element.textContent === categoryName) {
             element.classList.add("active-category");
+            return;
+        }
+    });
+
+    const elements = document.querySelectorAll(".sidebar-category-container");
+
+    elements.forEach(element => {
+        element.classList.remove("active-category");
+        
+        const children = element.children;
+        for (let i = 0; i < children.length; i++) {
+            let child = children[i];
+            if (child.textContent === categoryName) {
+                console.log(child.textContent);
+                element.classList.add("active-category");
+                return;
+            }
         }
     });
 }
 
 function displayContent(categoryName) {
     const content = document.getElementById("content");
-    content.innerHTML = `<h3 id="content-header">${categoryName}</h3>`
-    
+    content.innerHTML = "";
+
+    const categoryHeader = document.createElement("h3");
+    categoryHeader.id = "content-header";
+    categoryHeader.textContent = categoryName;
+    content.appendChild(categoryHeader);
+
     editActiveCategoryClass(categoryName);
 
     let filteredTasks = [];
@@ -152,6 +168,7 @@ sidebarCategories.addEventListener("click", function(e) {
     const target = e.target;
     if (target.classList.contains("category")) {
         const categoryName = target.textContent;
+        console.log(categoryName);
         displayContent(categoryName);
     }
 });
@@ -166,11 +183,26 @@ function refreshCategoryList() {
 
     // add categories to the sidebar
     categories.forEach(category => {
+        const categoryContainer = document.createElement("div");
+        categoryContainer.classList.add("sidebar-category-container");
+
         const categoryName = category.getCategoryName();
         const categoryButton = document.createElement("button");
         categoryButton.textContent = categoryName;
         categoryButton.classList.add("category");
-        sidebarCategories.appendChild(categoryButton);
+        categoryContainer.appendChild(categoryButton);
+
+        const deleteCategoryButton = document.createElement("button");
+        deleteCategoryButton.classList.add("delete-category");
+        const deleteCategoryIcon = document.createElement("img");
+        deleteCategoryIcon.src = "./imgs/delete_category.svg";
+        deleteCategoryIcon.alt = "Delete";
+        deleteCategoryButton.appendChild(deleteCategoryIcon);
+        categoryContainer.appendChild(deleteCategoryButton);
+        
+        sidebarCategories.appendChild(categoryContainer);
+    
+        deleteCategoryButton.addEventListener("click", () => displayDeleteCategoryModal(categoryName));
     });
 
     // attach addCategoryButton to sidebar

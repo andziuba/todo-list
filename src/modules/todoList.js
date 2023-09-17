@@ -1,6 +1,6 @@
 import { format, isWithinInterval, parseISO } from "date-fns";
 import { Category } from "./category";
-import { Task, addNewTaskToCategory } from "./task";
+import { Task } from "./task";
 
 class TodoList {
     constructor() {

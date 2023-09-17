@@ -1,4 +1,4 @@
-import { todoList, refreshCategoryList } from "./dom";
+import { todoList, refreshCategoryList, displayContent } from "./dom";
 import { closeModals } from "./modals";
 import { saveTodoListToLocalStorage } from "./defaultContent";
 
@@ -34,8 +34,15 @@ function submitNewCategory(e) {
     const newCategoryNameInput = document.getElementById("category-name");
     const newCategoryName = newCategoryNameInput.value.trim();
 
+    // check if a category with the same name already exists
+    if (todoList.getCategories().some(category => category.getCategoryName() === newCategoryName)) {
+        alert("A category with the same name already exists. Please choose a different name.");
+        return;
+    }
+
     const newCategory = new Category(newCategoryName);
     todoList.addCategory(newCategory);
+    console.log("Categories after adding new one:", todoList.getCategories());
 
     document.getElementById("form-new-category").reset();
     
@@ -45,7 +52,19 @@ function submitNewCategory(e) {
     refreshCategoryList();
 }
 
+function deleteCategory(categoryName) {
+    const updatedCategories = todoList.getCategories().filter(category => category.getCategoryName() !== categoryName);
+
+    todoList.categories = updatedCategories;
+
+    saveTodoListToLocalStorage();
+
+    closeModals();
+    refreshCategoryList();
+    displayContent("All tasks");
+}
+
 const newCategoryForm = document.getElementById("form-new-category");
 newCategoryForm.addEventListener("submit", submitNewCategory);
 
-export { Category, submitNewCategory };
+export { Category, submitNewCategory, deleteCategory };

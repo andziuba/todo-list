@@ -1,3 +1,4 @@
+import { deleteCategory } from "./category";
 import { todoList } from "./dom";
 
 function displayNewCategoryModal() {
@@ -20,9 +21,24 @@ function displayNewTaskModal() {
     });
 }
 
+function displayDeleteCategoryModal(categoryName) {
+    deleteCategoryModal.style.display = "block";
+
+    const modalCategoryName = document.getElementById("modal-category-name");
+    modalCategoryName.textContent = categoryName;
+    modalCategoryName.style.fontWeight = "700";
+
+    const submitDeleteCategory = document.getElementById("submit-delete-category");
+        const cancelDeleteCategory = document.getElementById("cancel-delete-category");
+
+        submitDeleteCategory.addEventListener("click", () => deleteCategory(categoryName));
+        cancelDeleteCategory.addEventListener("click", closeModals);
+}
+
 function closeModals() {
     newCategoryModal.style.display = "none";
     newTaskModal.style.display = "none";
+    deleteCategoryModal.style.display = "none";
 }
 
 const newCategoryButton = document.getElementById("button-new-category");
@@ -30,6 +46,7 @@ const newTaskButton = document.getElementById("button-new-task");
 const closeModalButtons = document.querySelectorAll(".close-button");
 const newCategoryModal = document.getElementById("modal-new-category");
 const newTaskModal = document.getElementById("modal-new-task");
+const deleteCategoryModal = document.getElementById("modal-delete-category");
 
 newCategoryButton.addEventListener("click", displayNewCategoryModal);
 newTaskButton.addEventListener("click", displayNewTaskModal);
@@ -37,4 +54,4 @@ closeModalButtons.forEach(button => {
     button.addEventListener("click", closeModals);
 });
 
-export { displayNewCategoryModal, displayNewTaskModal, closeModals };
+export { displayNewCategoryModal, displayNewTaskModal, displayDeleteCategoryModal, closeModals };

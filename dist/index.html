@@ -116,6 +116,18 @@
                 </form>
             </div>
         </div>
+        <!-- delete category -->
+        <div id="modal-delete-category" class="modal" style="display: none;">
+            <div class="modal-content">
+                <button class="close-button"><span class="close">&times;</span></button>
+                <div class="modal-title">Are you sure you want to delete this category?</div>
+                <div class="modal-text">Deleting category <span id="modal-category-name"></span> will delete all tasks that are assigned to this category</div>
+                <div class="buttons-container">
+                    <button id="submit-delete-category">Yes</button>
+                    <button id="cancel-delete-category">No</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="main.js"></script>
     <script>
